@@ -26,6 +26,13 @@ function EditToolbar() {
     if (store.isListNameEditActive) {
         editStatus = true;
     }
+    let closeButtonClass;
+    let undoRedoClass;
+    if(store.currentList){
+        closeButtonClass="top5-button";
+    }
+    else
+        closeButtonClass="top5-button-disabled";
     return (
         <div id="edit-toolbar">
             <div
@@ -43,10 +50,10 @@ function EditToolbar() {
                 &#x21B7;
             </div>
             <div
-                disabled={editStatus}
+                //disabled={closeDisableStatus}
                 id='close-button'
                 onClick={handleClose}
-                className={enabledButtonClass}>
+                className={closeButtonClass}>
                 &#x24E7;
             </div>
         </div>

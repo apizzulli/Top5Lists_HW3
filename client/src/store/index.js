@@ -34,8 +34,8 @@ export const useGlobalStore = () => {
         idNamePairs: [],
         currentList: null,
         newListCounter: 0,
-        listNameActive: false,
-        itemActive: false,
+        isListNameEditActive: false,
+        isItemEditActive: false,
         listMarkedForDeletion: null
     });
 
@@ -379,6 +379,13 @@ export const useGlobalStore = () => {
     store.showDeleteListModal = function(){
         document.getElementById("delete-modal").classList.add("is-visible");
     }
+    store.enableButton = function(buttonId){
+        document.getElementById(buttonId).classList.remove("disabled");
+    }
+    store.disableButton = function(buttonId){
+        document.getElementById(buttonId).classList.add("disabled");
+    }
+
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
     return { store, storeReducer };
