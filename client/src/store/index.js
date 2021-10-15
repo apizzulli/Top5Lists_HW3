@@ -118,6 +118,16 @@ export const useGlobalStore = () => {
                     listMarkedForDeletion: null
                 });
             }
+            case GlobalStoreActionType.SET_LIST_MARKED_FOR_DELETION:{
+                return setStore({
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: payload
+                });
+            }
             default:
                 return store;
         }
@@ -220,7 +230,6 @@ export const useGlobalStore = () => {
             }
         }
         updateList(top5List);
-        
     }
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
     store.closeCurrentList = function () {
@@ -320,6 +329,19 @@ export const useGlobalStore = () => {
             type: GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE,
             payload: null
         });
+    }
+    store.setListMarkedForDeletion = function(id){
+        async function asyncSetListMarkedForDeletion(id){
+            let response = await api.getTop5ListById(id);
+            if(response.data.success){
+                let list = response.data.top5List;
+                storeReducer({
+                    type: GlobalStoreActionType.SET_LIST_MARKED_FOR_DELETION,
+                    payload: list
+                });
+            }
+        }
+        asyncSetListMarkedForDeletion(id);
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT

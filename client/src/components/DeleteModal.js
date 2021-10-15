@@ -9,11 +9,12 @@ import { GlobalStoreContext } from '../store'
     
     @author McKilla Gorilla
 */
-function DeleteModal() {
+function DeleteModal(props) {
     const { store } = useContext(GlobalStoreContext);
+    const{idNamePair} = props;
     let name = "";
-    if (store.currentList) {
-        name = store.currentList.name;
+    if (idNamePair) {
+        name = idNamePair.name;
     }
     function handleDeleteList(event) {
         store.deleteMarkedList();

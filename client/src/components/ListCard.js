@@ -25,6 +25,13 @@ function ListCard(props) {
             store.setCurrentList(_id);
         }
     }
+    function handleSetListMarkedForDeletion(event){
+        document.getElementById("delete-modal").classList.add("is-visible");
+        let _id = event.target.id;
+        if (_id.indexOf('delete-list-') >= 0)
+            _id = ("" + _id).substring("delete-list-".length);
+        store.setListMarkedForDeletion(_id);
+    }
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -77,6 +84,7 @@ function ListCard(props) {
                 id={"delete-list-" + idNamePair._id}
                 className="list-card-button"
                 value={"\u2715"}
+                onClick={handleSetListMarkedForDeletion}
             />
             <input
                 disabled={cardStatus}
