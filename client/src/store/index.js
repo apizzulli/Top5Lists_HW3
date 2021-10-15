@@ -15,6 +15,7 @@ export const GlobalStoreContext = createContext({});
 export const GlobalStoreActionType = {
     ADD_EMPTY_LIST: "ADD_EMPTY_LIST",
     CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
+    CHANGE_LIST_ITEM: "CHANGE_LIST_ITEM",
     CLOSE_CURRENT_LIST: "CLOSE_CURRENT_LIST",
     LOAD_ID_NAME_PAIRS: "LOAD_ID_NAME_PAIRS",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
@@ -62,6 +63,16 @@ export const useGlobalStore = () => {
                     isItemEditActive: false,
                     listMarkedForDeletion: null
                 });
+            }
+            case GlobalStoreActionType.CHANGE_LIST_ITEM:{
+                return setStore({
+                    idNamePairs: store.idNamePairs,
+                    currentList: payload.top5List,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null
+                })
             }
             // STOP EDITING THE CURRENT LIST
             case GlobalStoreActionType.CLOSE_CURRENT_LIST: {
@@ -186,7 +197,31 @@ export const useGlobalStore = () => {
         }
         asyncChangeListName(id);
     }
-
+    /*
+    case GlobalStoreActionType.CHANGE_LIST_ITEM:{
+                return setStore({
+                    idNamePairs: payload.idNamePairs,
+                    currentList: payload.top5List,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null
+                })
+            }*/
+    store.changeListItem = function (id, newText){
+        let top5List = store.currentList;
+        top5List.items[id-1] = newText;
+        async function updateList (top5List){
+            let response = await api.updateTop5ListById(top5List._id, top5List);
+            if(response.data.success){
+                storeReducer({
+                    currentList: top5List,
+                });
+            }
+        }
+        updateList(top5List);
+        
+    }
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
     store.closeCurrentList = function () {
         storeReducer({
