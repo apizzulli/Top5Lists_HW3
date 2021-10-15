@@ -26,11 +26,11 @@ function ListCard(props) {
         }
     }
     function handleSetListMarkedForDeletion(event){
-        document.getElementById("delete-modal").classList.add("is-visible");
         let _id = event.target.id;
         if (_id.indexOf('delete-list-') >= 0)
             _id = ("" + _id).substring("delete-list-".length);
         store.setListMarkedForDeletion(_id);
+        store.showDeleteListModal();
     }
 
     function handleToggleEdit(event) {

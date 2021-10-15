@@ -9,20 +9,23 @@ import { GlobalStoreContext } from '../store'
     
     @author McKilla Gorilla
 */
-function DeleteModal(props) {
+function DeleteModal() {
     const { store } = useContext(GlobalStoreContext);
-    const{idNamePair} = props;
+    //const [markedForDeletion, setMarkedForDeletion] = useState(false);
     let name = "";
-    if (idNamePair) {
-        name = idNamePair.name;
-    }
+    
     function handleDeleteList(event) {
-        store.deleteMarkedList();
+        store.deleteMarkedList(store.listMarkedForDeletion._id);
+        store.hideDeleteListModal();
     }
     function handleCloseModal(event) {
         store.hideDeleteListModal();
     }
+    if (store.listMarkedForDeletion) {
+        name = store.listMarkedForDeletion.name;
+    }
     return (
+        
         <div
             className="modal"
             id="delete-modal"
