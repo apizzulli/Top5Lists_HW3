@@ -22,31 +22,37 @@ function EditToolbar() {
         history.push("/");
         store.closeCurrentList();
     }
-    let editStatus = false;
-    if (store.isListNameEditActive) {
-        editStatus = true;
-    }
+    
     let closeButtonClass;
-    let undoRedoClass;
-    if(store.currentList){
+    let undoClass;
+    let redoClass;
+    if(store.currentList)
         closeButtonClass="top5-button";
-    }
     else
         closeButtonClass="top5-button-disabled";
+    
+    if(store.undoStackSize > 0 && store.closeCurrentList)
+        undoClass="top5-button";
+    else
+        undoClass="top5-button-disabled";
+    if(store.redoStackSize>0 && store.closeCurrentList)
+        redoClass="top5-button";
+    else
+        redoClass="top5-button-disabled";
     return (
         <div id="edit-toolbar">
             <div
-                disabled={editStatus}
+                //disabled={editStatus}
                 id='undo-button'
                 onClick={handleUndo}
-                className={enabledButtonClass}>
+                className={undoClass}>
                 &#x21B6;
             </div>
             <div
-                disabled={editStatus}
+                //disabled={editStatus}
                 id='redo-button'
                 onClick={handleRedo}
-                className={enabledButtonClass}>
+                className={redoClass}>
                 &#x21B7;
             </div>
             <div
