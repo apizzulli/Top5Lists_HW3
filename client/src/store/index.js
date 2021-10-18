@@ -275,8 +275,8 @@ export const useGlobalStore = () => {
     }
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
     store.closeCurrentList = function () {
-        store.disableButton("undo-button");
-        store.disableButton("redo-button");
+        // store.disableButton("undo-button");
+        // store.disableButton("redo-button");
         storeReducer({
             type: GlobalStoreActionType.CLOSE_CURRENT_LIST,
             payload: {}
@@ -417,12 +417,12 @@ export const useGlobalStore = () => {
     store.showDeleteListModal = function(){
         document.getElementById("delete-modal").classList.add("is-visible");
     }
-    store.enableButton = function(buttonId){
-        document.getElementById(buttonId).classList.remove("disabled");
-    }
-    store.disableButton = function(buttonId){
-        document.getElementById(buttonId).classList.add("disabled");
-    }
+    // store.enableButton = function(buttonId){
+    //     document.getElementById(buttonId).classList.remove("disabled");
+    // }
+    // store.disableButton = function(buttonId){
+    //     document.getElementById(buttonId).classList.add("disabled");
+    // }
     store.incrementListCounter = function(){
         store.newListCounter = store.newListCounter+1;
     }

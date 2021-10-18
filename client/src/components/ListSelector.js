@@ -33,8 +33,10 @@ const ListSelector = () => {
             />
         ))
     }
-    if(store.justDeleted)
+    if(store.justDeleted){
         store.loadIdNamePairs();
+        console.log("justDeleted=true");
+    }
 
     return (
         <div id="top5-list-selector">
