@@ -38,6 +38,7 @@ export const useGlobalStore = () => {
         isListNameEditActive: false,
         isItemEditActive: false,
         listMarkedForDeletion: null,
+        justDeleted: false,
         undoStackSize: tps.getUndoSize(),
         redoStackSize: tps.getRedoSize()
     });
@@ -51,10 +52,11 @@ export const useGlobalStore = () => {
                 return setStore({
                     idNamePairs: payload.idNamePairs,
                     currentList: payload.top5List,
-                    newListCounter: store.newListCounter+1,
+                    newListCounter: payload.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
+                    justDeleted: false,
                     undoStackSize: tps.getUndoSize(),
                     redoStackSize: tps.getRedoSize()
                 });
@@ -68,6 +70,7 @@ export const useGlobalStore = () => {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
+                    justDeleted: false,
                     undoStackSize: tps.getUndoSize(),
                     redoStackSize: tps.getRedoSize()
                 });
@@ -80,6 +83,7 @@ export const useGlobalStore = () => {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
+                    justDeleted: false,
                     undoStackSize: tps.getUndoSize(),
                     redoStackSize: tps.getRedoSize()
                 })
@@ -93,6 +97,7 @@ export const useGlobalStore = () => {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
+                    justDeleted: false,
                     undoStackSize: tps.getUndoSize(),
                     redoStackSize: tps.getRedoSize()
                 })
@@ -106,6 +111,7 @@ export const useGlobalStore = () => {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
+                    justDeleted: false,
                     undoStackSize: tps.getUndoSize(),
                     redoStackSize: tps.getRedoSize()
                 });
@@ -119,6 +125,7 @@ export const useGlobalStore = () => {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
+                    justDeleted: false,
                     undoStackSize: tps.getUndoSize(),
                     redoStackSize: tps.getRedoSize()
                 });
@@ -132,6 +139,7 @@ export const useGlobalStore = () => {
                     isListNameEditActive: true,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
+                    justDeleted: false,
                     undoStackSize: tps.getUndoSize(),
                     redoStackSize: tps.getRedoSize()
                 });
@@ -144,6 +152,7 @@ export const useGlobalStore = () => {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: payload,
+                    justDeleted: false,
                     undoStackSize: tps.getUndoSize(),
                     redoStackSize: tps.getRedoSize()
                 });
@@ -156,6 +165,7 @@ export const useGlobalStore = () => {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
+                    justDeleted: true,
                     undoStackSize: tps.getUndoSize(),
                     redoStackSize: tps.getRedoSize()
                 });
@@ -185,6 +195,8 @@ export const useGlobalStore = () => {
             let response = await api.createTop5List(newList);
             let top5List;
             let idNamePairs;
+            let newCounter = store.newListCounter;
+            newCounter++;
             if(response.data.success){
                 top5List = response.data.top5List;
                 store.setCurrentList(top5List._id);
@@ -196,13 +208,14 @@ export const useGlobalStore = () => {
                         payload:{
                             idNamePairs: idNamePairs,
                             currentList: top5List,
-                            newListCounter: store.newListCounter+1
+                            newListCounter: newCounter
                         }
                     });
                 }
             }
         }
         asyncAddEmptyList();
+        store.incrementListCounter();
     }
     // THIS FUNCTION PROCESSES CHANGING A LIST NAME
     store.changeListName = function (id, newName) {
@@ -268,6 +281,7 @@ export const useGlobalStore = () => {
             type: GlobalStoreActionType.CLOSE_CURRENT_LIST,
             payload: {}
         });
+        tps.clearAllTransactions();
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
@@ -408,6 +422,9 @@ export const useGlobalStore = () => {
     }
     store.disableButton = function(buttonId){
         document.getElementById(buttonId).classList.add("disabled");
+    }
+    store.incrementListCounter = function(){
+        store.newListCounter = store.newListCounter+1;
     }
 
 

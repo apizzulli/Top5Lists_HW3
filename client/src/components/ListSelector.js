@@ -20,7 +20,9 @@ const ListSelector = () => {
 
     function handleClick (event){
         store.addEmptyList();
+        console.log(store.newListCounter);
     }
+
     let listCard = "";
     if (store) {
         listCard = store.idNamePairs.map((pair) => (
@@ -31,6 +33,9 @@ const ListSelector = () => {
             />
         ))
     }
+    if(store.justDeleted)
+        store.loadIdNamePairs();
+
     return (
         <div id="top5-list-selector">
             <div id="list-selector-heading">
